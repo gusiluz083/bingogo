@@ -1,132 +1,39 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
-  <meta name="theme-color" content="#111827" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Mi Bingo" />
-  <title>Mi Bingo</title>
-  <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="icon-192.png" />
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#111827">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="BingoGO">
+<title>BingoGO</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="app-shell">
-    <header class="topbar">
-      <div>
-        <p class="eyebrow">BINGO PARA IPHONE</p>
-        <h1>Mi cartón</h1>
-      </div>
-      <button id="themeBtn" class="icon-btn" aria-label="Cambiar modo oscuro">🌙</button>
-    </header>
+<div class="app">
+<header><div><p class="eyebrow">BINGO PARA IPHONE</p><h1>BingoGO</h1></div><button id="themeBtn" class="icon-btn">🌙</button></header>
 
-    <main>
-      <section class="card panel">
-        <div class="section-head">
-          <div>
-            <h2>Cartón</h2>
-            <p id="modeHint">Introduce los números y deja vacías las casillas que no uses.</p>
-          </div>
-          <button id="editBtn" class="secondary-btn">Jugar</button>
-        </div>
+<section class="panel">
+<div class="section-head"><div><h2>Mis cartones</h2><p>Hasta 3 cartones activos a la vez.</p></div><button id="editBtn" class="secondary-btn">Jugar</button></div>
+<div id="cardsContainer" class="cards-container"></div>
+<div class="card-controls"><button id="addCardBtn" class="primary-btn">+ Añadir cartón</button><button id="removeCardBtn" class="danger-btn">Quitar último</button></div>
+</section>
 
-        <div id="bingoGrid" class="bingo-grid" aria-label="Cartón de bingo"></div>
+<section class="panel">
+<div class="section-head"><div><h2>Número cantado</h2><p>Se marcará en todos los cartones.</p></div><button id="undoBtn" class="secondary-btn compact">Deshacer</button></div>
+<div id="numberPad" class="number-pad"></div>
+<button id="resetBtn" class="danger-btn full">Reiniciar partida</button>
+</section>
 
-        <div class="card-actions">
-          <button id="clearMarksBtn" class="secondary-btn">Borrar tachados</button>
-          <button id="newCardBtn" class="danger-btn">Nuevo cartón</button>
-        </div>
-      </section>
-
-      <section class="panel">
-        <div class="section-head">
-          <div>
-            <h2>Tachar por voz</h2>
-            <p>Di un número, por ejemplo: “treinta y cuatro”.</p>
-          </div>
-          <span id="voiceStatus" class="status-pill">Preparado</span>
-        </div>
-        <button id="voiceBtn" class="primary-btn large">🎤 Escuchar número</button>
-        <p class="small-note">En algunos iPhone Safari puede pedir permiso para usar el micrófono.</p>
-      </section>
-
-      <section class="panel">
-        <div class="section-head">
-          <div>
-            <h2>Escanear cartón</h2>
-            <p>Haz una foto clara y la app intentará detectar los números.</p>
-          </div>
-          <span id="scanStatus" class="status-pill">Sin foto</span>
-        </div>
-
-        <label class="camera-btn">
-          📷 Hacer foto o elegir imagen
-          <input id="cameraInput" type="file" accept="image/*" capture="environment" hidden />
-        </label>
-
-        <div id="scanPreviewWrap" class="preview-wrap hidden">
-          <img id="scanPreview" alt="Vista previa del cartón" />
-        </div>
-
-        <button id="scanBtn" class="primary-btn" disabled>Analizar imagen</button>
-        <div id="scanResults" class="scan-results hidden"></div>
-        <p class="small-note">El reconocimiento puede necesitar conexión a Internet la primera vez y siempre conviene revisar los números.</p>
-      </section>
-
-      <section class="panel">
-        <div class="section-head">
-          <div>
-            <h2>Marcador rápido</h2>
-            <p>Pulsa el número que acaba de cantar el locutor.</p>
-          </div>
-          <button id="resetCalledBtn" class="secondary-btn compact">Reiniciar</button>
-        </div>
-        <div id="numberPad" class="number-pad"></div>
-      </section>
-
-      <section class="panel">
-        <div class="section-head">
-          <div>
-            <h2>Estadísticas</h2>
-            <p>Resumen de la partida actual.</p>
-          </div>
-        </div>
-        <div class="stats-grid">
-          <div class="stat"><strong id="statCalled">0</strong><span>Cantados</span></div>
-          <div class="stat"><strong id="statHits">0</strong><span>En tu cartón</span></div>
-          <div class="stat"><strong id="statRemaining">0</strong><span>Por tachar</span></div>
-        </div>
-        <div id="lastNumbers" class="last-numbers">Todavía no hay números cantados.</div>
-      </section>
-
-      <section class="panel">
-        <div class="section-head">
-          <div>
-            <h2>Cartones guardados</h2>
-            <p>Guarda varios cartones y recupéralos cuando quieras.</p>
-          </div>
-        </div>
-
-        <div class="save-row">
-          <input id="cardNameInput" type="text" maxlength="30" placeholder="Nombre del cartón" />
-          <button id="saveCardBtn" class="primary-btn compact">Guardar</button>
-        </div>
-
-        <div id="savedCards" class="saved-list"></div>
-      </section>
-
-      <section class="panel install-panel">
-        <h2>Añadir al inicio del iPhone</h2>
-        <p>Abre esta web en Safari, pulsa <strong>Compartir</strong> y selecciona <strong>Añadir a pantalla de inicio</strong>.</p>
-      </section>
-    </main>
-  </div>
-
-  <div id="toast" class="toast hidden" role="status"></div>
-
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-  <script src="app.js"></script>
+<section class="panel stats">
+<div><strong id="calledCount">0</strong><span>Cantados</span></div>
+<div><strong id="hitCount">0</strong><span>Aciertos</span></div>
+<div><strong id="remainingCount">0</strong><span>Por tachar</span></div>
+</section>
+</div>
+<div id="toast" class="toast hidden"></div>
+<script src="app.js"></script>
 </body>
 </html>

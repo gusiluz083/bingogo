@@ -1,7 +1,6 @@
 {
-  "name": "Mi Bingo",
-  "short_name": "Mi Bingo",
-  "description": "Cartón de bingo para iPhone con voz, cámara y estadísticas.",
+  "name": "BingoGO",
+  "short_name": "BingoGO",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#111827",
